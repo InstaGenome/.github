@@ -1,31 +1,29 @@
-# InstaGenome - a super-fast genome analysis tool
+= InstaGenome - super-fast genome analysis software for whole genome sequencing data
 
-## Introduction
+== Introduction
 
-InstaGenome is a super-fast genome analysis tool that produces identical data
-at 20x speed-up.
+InstaGenome is super-fast genome analysis software that produces an identical
+result to the GATK best practices with a >20x speed on most CPU servers without
+using an additional hardware such as GPU or FPGA.
 
-InstaGenome improves BWA and unifies various GATK/Picard pre-processing
-modules such as MarkIlluminaAdapters, MergeBamAlignment, MarkDuplicatesSpark,
-BaseRecalibrator, and ApplyBQSR that are essential in GATK best practices.
-InstaGenome can produce data identical to what GATK modules produce.
+InstaGenome includes BWA, MarkIlluminaAdapters, MergeBamAlignment,
+MarkDuplicatesSpark, BaseRecalibrator, and ApplyBQSR of the GATK best practices.
+The current version of InstaGenome processes short reads (75bp ~ 300bp).
 
-InstaGenome can process short reads (75bp ~ 300bp) only now.
-
-InstaGenome is a proprietary program of Genome4me. Please read the file LICENSE
-for the licensing policy of InstaGenome. InstaGenome BWA module is based on
-BWA Apache license version.
+InstaGenome is proprietary software of Genome4me, Inc. Please read the file
+LICENSE for the licensing policy of InstaGenome. The InstaGenome BWA module is
+based on BWA Apache license version.
 
 
-# How to use
+= How to use
 
-## Quick guide
+== Quick guide
 
-Activate your license, index a reference FASTA file and then execute
+Activate an InstaGenome license, index a reference FASTA file and then execute
 InstaGenome binary to produce an analysis-ready SAM/BAM file.
 
 ```
-# 1. Activate license
+# 1. Activate a license
 $ instagenome license
 License activation required.
 Please enter a product key (xxxx-xxxx-xxxx-xxxx)
@@ -46,15 +44,15 @@ $ instagenome pre_process --mark_illumina_adapter --fix_alignment --mark_dup \
   --bqsr <reference fasta> <read1.fastq> [<read2.fastq>]
 ```
 
-## How to activate license
+== How to activate a license
 
-All InstaGenome commands require a valid license except "version" and "help"
-commands. You have to activate your license before executing InstaGenome.
-If InstaGenome could not find a valid license information, InstaGenome would
-start the process to activate a license.
+All InstaGenome commands require a valid license except 'version' and 'help'
+commands. The user should activate a license before executing InstaGenome.
+If InstaGenome cannot find a valid license, a procecss to activate a license
+will begin.
 
-You can activate your license by using the 'license' command and then typing
-your product key as follows:
+The user can activate a license by using 'license' command and typing a product
+key as follows:
 ```
 $ instagenome license
 License activation required.
@@ -69,18 +67,18 @@ Valid until: ****/**/** [UTC]
 Activation ID: *****-*****-*****-*****-*****-*
 ```
 
-Since you can activate your license on the limited number of machines, you
-have to activate your license carefully. If you want to move the license
-to another machine or replace the machine hardware, you have to deactivate
-the license on the machine so as to decrement the number of activated licenses.
-You can deactivated a license as follows:
+Since the user can activate a license on a limited number of machines, the
+license should be activated carefully. If the user wants to move the license
+to another machine or replace the hardware of the marchine, the old license
+should be deactivated so as to decrement the number of activated licenses.
+A license can be deactivated as follows:
 ```
 $ instagenome license -d
 License deactivated successfully.
 ```
 
 
-## How to execute InstaGenome
+== How to execute InstaGenome
 
 1. Index the reference FASTA file.
 ```
@@ -93,7 +91,7 @@ $ instagenome pre_process --mark_illumina_adapter --fix_alignment --mark_dup \
   --bqsr <reference fasta> <read1.fastq> [<read2.fastq>]
 ```
 
-The 'pre_process' command does followings:
+'pre_process' command performs followings:
 - By default, the command aligns query sequences using improved BWA-MEM.
 - 'mark_illumina_adapter' option is equivalent to GATK MarkIlluminaAdapter
   module.
@@ -103,65 +101,64 @@ The 'pre_process' command does followings:
   modules.
 
 The 'pre_process' command automatically configures the number of threads and
-memory usage based on the number of processors and memory amount of a system.
-You can explicitly override the number of threads by using '--threads' option
-though. You can also control the memory usage of InstaGenome with
-'--high-memory' or '--low-memory' option. The '--high-memory' option forces
-InstaGenome to use more memory so as to run faster with higher risk of out-of-
-memory. The '--low-memory' option forces InstaGenome to use less memory so as
-to avoid out-of-memory.
+memory usage based on the number of available processors and memory amount of
+a system. The user can explicitly override the number of threads by using
+'--threads' option and also can control the memory usage with '--high-memory'
+or '--low-memory' option. The '--high-memory' option forces InstaGenome to use
+more memory so as to run faster with higher risk of out-of-memory, while the
+'--low-memory' option forces InstaGenome to use less memory so as to avoid
+out-of-memory.
 
-The 'pre_process' command accepts BWA options also. 'instagenome --help' and
-'instagenome pre_process --help' list available commands and options.
+The 'pre_process' command also accepts existing 'BWA mem' options such as
+'-Y' or '-K'. 'instagenome --help' and 'instagenome pre_process --help'
+list available commands and options.
 
-# Minimum System Requirement
+= Minimum System Requirement
 
 InstaGenome requires the following linux distributions:
 - Rocky Linux 8.8
 - CentOS 7.9
 - Ubuntu 22.04 LTS Server / Desktop
 - Ubuntu 20.04 LTS Server / Desktop
-  - You have to install the curl package on Ubuntu 20.04 LTS Desktop:
+  - The user should install the curl package on Ubuntu 20.04 LTS Desktop:
     - sudo apt install curl
 
-Nonetheless, InstaGenome may run on other linux distributions if the following
+InstaGenome may also run on other linux distributions if the following
 libraries are installed:
 - libbz2
 - libcurl
 - liblzma
 - libz
 
-InstaGenome requires the following minimum hardware specifications for a 30x
-WGS (Whole Genome Sequencing) FASTQ file.
+InstaGenome requires the following minimum hardware specifications to properly
+process 30x human WGS (Whole Genome Sequencing) FASTQ files.
 - CPU: x86_64 processors
-- Memory: 64 GB
+- RAM: 64 GB
 - Disk: 4 times input FASTQ files' size
 
-For input FASTQ files deeper than 30x, InstaGenome might need more memory than
-64 GB. Because InstaGenome leverages the most of system memory to execute
-faster, it is recommended that you execute only one InstaGenome process in your
-system.
+For input FASTQ files larger than 30x human WGS data, InstaGenome may need
+larger memory than 64 GB. Because InstaGenome leverages the most of system
+memory to execute faster, only a single InstaGenome process should be executed
+at a time.
 
-You should ensure that there is enough free disk space 4 times the size of input
+Please make sure that there is enough free disk space 4 times the size of input
 FASTQ files because InstaGenome stores intermediate data into temporary files.
 
 
-# GATK compatible output
+= GATK compatible output
 
-InstaGenome can produce the same SAM output, mark-duplicate metrics, and BQSR
-report files as what the GATK best-practice pipeline produced. We tested about
-250 FASTQ files and confirmed that the output BAM files of InstaGenome are
-equivalent to GATK best-practice's files. In our test, we referred GATK
-best-practice GCP (Google Cloud Platform) v3.1.11 and used following software
-versions:
+By examining >250 human WGS datasets, we confirmed that InstaGenome produces
+SAM output, mark-duplicate metrics, and BQSR report files identical to those of
+the GATK best-practice pipeline. In our test, we used GATK best-practice GCP
+(Google Cloud Platform) v3.1.11 and the following software versions:
 - GATK 4.3
 - Picard 2.26.10
 - BWA 0.7.15-r1140
 - HTSJDK 3.0.1
 
-## Detailed GATK steps
+== Detailed GATK steps
 
-The detailed steps of the GATK pipeline we tested follow:
+Here are the detailed steps of the GATK pipeline we tested:
 - FastqToSam
 - MarkIlluminaAdapters
 - SamToFastq
@@ -172,15 +169,15 @@ The detailed steps of the GATK pipeline we tested follow:
 - ApplyBQSR
 
 The GATK GCP pipeline executes BaseRecalibrator and ApplyBQSR steps in multiple
-processes by dividing a whole genome into tens of intervals so that it runs
-faster. However, the output files of the multi-process BaseRecalibrator
-execution can be slightly different from the output files of a single-process
-BaseRecalibatrator execution because of random number. In this test, we
-executed BaseRecalibrator and ApplyBQSR steps in a single process and confirmed
-that the output files of InstaGenome are identical to the output files of
-BaseRecalibrator and ApplyBQSR steps in a single process.
+processes by dividing the whole genome into tens of intervals to run faster.
+However, the output results of the multi-process BaseRecalibrator can be
+slightly different from the output files of a single-process BaseRecalibatrator
+because of random numbers generated in the middle of process. To remove the
+random fluctuations in our test, we executed the GATK BaseRecalibrator and
+ApplyBQSR in a single process and confirmed that the output files of InstaGenome
+are identical to those of the GATK BaseRecalibrator and ApplyBQSR.
 
-Detailed commands and arguments we executed follow:
+Here are the detailed commands and arguments we executed for our test:
 '''
 # InstaGenome
 $ instagenome pre_process -Y -K 100000000 \
@@ -286,7 +283,7 @@ $ java \
   --use-original-qualities
 '''
 
-# Support
+= Support
 
-If you have any questions about this program, please contact to
+If you have any questions about this software, please contact to
 support@genome4me.com.
